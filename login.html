@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskHub</title>
+  <style>
+  body {
+  font-family: Arial, sans-serif;
+  background-color: #1b1b1b;
+  color: white;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #ff6600;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky; /* Keeps the header at the top */
+  top: 0;
+}
+
+.logo img {
+  height: 50px;
+  margin-right: 10px;
+}
+
+/* Dashboard Container */
+.container, .dashboard {
+  max-width: 400px;
+  width: 100%;
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Center only the dashboards and login page */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Pushes the content to center while allowing the footer to stay at the bottom */
+}
+
+h2 {
+  text-align: center;
+  color: #ff6600;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ff8533;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #444;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #333;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  color: #ff6600;
+  position: relative;
+  bottom: 0;
+}
+
+footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+
+  </style>
+</head>
+<body>
+    <body>
+        <!-- Header Section (stays at the top) -->
+        <header>
+          <div class="logo">
+            <img src="data:image/png;base64,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" alt="TaskPro Logo">
+            <h1>TaskHub</h1>
+          </div>
+        </header>
+      
+        <!-- Main content for dashboards and login (centered) -->
+        <main>
+          <!-- Login Section -->
+          <div id="loginPage" class="container">
+            <form id="loginForm">
+              <h2>Login</h2>
+              <input type="text" id="username" placeholder="Username" required>
+              <input type="password" id="password" placeholder="Password" required>
+              <button type="submit">Login</button>
+            </form>
+          </div>
+      
+          <!-- Admin Dashboard -->
+          <div id="adminDashboard" class="dashboard hidden">
+            <h2>Admin Dashboard</h2>
+            <div class="task-section">
+              <h3>Task Management</h3>
+              <form id="taskForm">
+                <input type="text" id="task" placeholder="New Task" required>
+                <button type="submit">Add Task</button>
+              </form>
+              <ul id="taskList"></ul>
+            </div>
+            <button id="logoutAdmin">Logout</button>
+          </div>
+      
+          <!-- Employee Dashboard -->
+          <div id="employeeDashboard" class="dashboard hidden">
+            <h2>Employee Dashboard</h2>
+            <div class="task-section">
+              <h3>Your Tasks</h3>
+              <ul id="employeeTaskList"></ul>
+            </div>
+            <button id="logoutEmployee">Logout</button>
+          </div>
+        </main>
+      
+        <!-- Footer Section -->
+        <footer>
+          <p>&copy; 2024 TaskPro Solutions. All rights reserved.</p>
+        </footer>
+      
+  <script>
+  // Simulate local users (stored in memory for now)
+const users = [
+  { username: 'admin', password: 'admin123', role: 'admin' },
+  { username: 'employee', password: 'employee123', role: 'employee' }
+];
+
+// Retrieve or set up tasks from localStorage
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+const loginForm = document.getElementById('loginForm');
+const adminDashboard = document.getElementById('adminDashboard');
+const employeeDashboard = document.getElementById('employeeDashboard');
+const loginPage = document.getElementById('loginPage');
+const taskForm = document.getElementById('taskForm');
+const taskList = document.getElementById('taskList');
+const employeeTaskList = document.getElementById('employeeTaskList');
+
+// Login functionality
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const user = users.find(u => u.username === username && u.password === password);
+  if (user) {
+    loginPage.classList.add('hidden');
+    if (user.role === 'admin') {
+      adminDashboard.classList.remove('hidden');
+      renderTasks();
+    } else {
+      employeeDashboard.classList.remove('hidden');
+      renderEmployeeTasks();
+    }
+  } else {
+    alert('Invalid credentials');
+  }
+});
+
+// Admin Task Management (Add Task)
+taskForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const task = document.getElementById('task').value;
+  tasks.push(task);
+  document.getElementById('task').value = '';
+  localStorage.setItem('tasks', JSON.stringify(tasks)); // Save tasks in localStorage
+  renderTasks();
+});
+
+// Render Tasks for Admin with remove functionality
+function renderTasks() {
+  taskList.innerHTML = '';
+  tasks.forEach((task, index) => {
+    const li = document.createElement('li');
+    li.textContent = task;
+
+    // Create a "Remove" button
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.style.marginLeft = '10px';
+    removeButton.onclick = () => {
+      removeTask(index);
+    };
+
+    li.appendChild(removeButton); // Add the remove button to the task item
+    taskList.appendChild(li);
+  });
+}
+
+// Remove task function
+function removeTask(index) {
+  tasks.splice(index, 1); // Remove the task from the array
+  localStorage.setItem('tasks', JSON.stringify(tasks)); // Update the localStorage
+  renderTasks(); // Re-render the tasks
+}
+
+// Render Tasks for Employee
+function renderEmployeeTasks() {
+  employeeTaskList.innerHTML = '';
+  tasks.forEach((task) => {
+    const li = document.createElement('li');
+    li.textContent = task;
+    employeeTaskList.appendChild(li);
+  });
+}
+
+// Logout functionality
+document.getElementById('logoutAdmin').addEventListener('click', () => {
+  adminDashboard.classList.add('hidden');
+  loginPage.classList.remove('hidden');
+});
+
+document.getElementById('logoutEmployee').addEventListener('click', () => {
+  employeeDashboard.classList.add('hidden');
+  loginPage.classList.remove('hidden');
+});
+
+
+  </script>
+</body>
+</html>
